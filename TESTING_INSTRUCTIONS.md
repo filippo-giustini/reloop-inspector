@@ -21,5 +21,5 @@ There is no working web endpoint in this repository yet. The linked video is a p
 ## Text for the Devpost field
 
 ```text
-Prototype concept submission. Please review the public repository, starting with README.md and docs/PROJECT_STATUS.md. The repository contains the project proposal, OpenCV 5 technical specification, data and evaluation protocol, reproducible capture procedure, architecture and printable capture mat. A runnable build and working web endpoint are not yet available; the linked video is explicitly labelled as a prototype concept walkthrough.
+Prototype concept submission. Please review the public repository, starting with README.md and PROJECT_STATUS.md. The repository contains the project proposal, OpenCV 5 technical specification, data and evaluation protocol, reproducible capture procedure, architecture and printable capture mat. A runnable build and working web endpoint are not yet available; the linked video is explicitly labelled as a prototype concept walkthrough.
 ```
