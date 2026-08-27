@@ -1,63 +1,101 @@
 # ReLoop Inspector
 
-![ReLoop Inspector hero](hero.png)
+**ReLoop Inspector is a public Agentic Vision prototype for guided, multi-view smartphone cosmetic inspection.** OpenCV 5 measures whether each capture is usable, selects a reason-specific corrective action when evidence is weak, verifies the correction, and admits only validated views into a human-reviewed evidence set.
 
-> **When vision is uncertain, ask for a better view.**
+> **Prototype boundary:** ReLoop provides cosmetic decision support. It does not certify battery condition, authenticity, water resistance, electrical safety, or resale value. Candidate surface marks are heuristic observations, not validated defects.
 
-ReLoop Inspector is a human-in-the-loop **Agentic Vision prototype concept** for more consistent cosmetic inspection of refurbished smartphones. Instead of forcing a grade from a weak image, the proposed workflow uses OpenCV 5 to assess evidence quality, request a reason-specific corrective view and verify the result before a human operator approves, overrides or defers the decision.
+## What is runnable
 
-This repository accompanies **Team MERAVIGLIA’s OpenCV AI Competition 2026 submission**. It contains the product proposal, technical specification, evaluation protocol, acquisition procedure and printable capture mat.
+The repository contains a functioning browser flow, a Node/tRPC API, and a Python worker running `opencv-contrib-python-headless==5.0.0.93`. The public interface supports manual image upload or camera capture and a deterministic reference run using clearly labelled synthetic fixtures.
 
-## Why this matters
-
-A smartphone surface can appear clean or damaged depending on focus, exposure, glare and viewing angle. ReLoop treats acquisition quality as part of the decision rather than as an invisible preprocessing detail. The central thesis is simple: **visual output should change the next action**.
-
-## Agentic Vision workflow
-
-![Agentic Vision state machine](agentic_vision_state_machine.png)
-
-The planned loop is explicit and testable:
-
-1. **Perceive:** measure focus, exposure, glare, pose, coverage and candidate evidence.
-2. **Decide:** determine whether the evidence is sufficient and which view is missing.
-3. **Act:** request one specific corrective capture action.
-4. **Verify:** confirm that the new frame achieved the requested change.
-5. **Approve:** keep a human operator accountable for confirmation, correction or deferral.
-
-## Technical architecture
-
-![ReLoop Inspector architecture](architecture.png)
-
-OpenCV 5 is planned as a substantive runtime component, supporting device-region detection, perspective rectification, quality gates, glare estimation, pose verification, coverage tracking, multi-view registration and interpretable overlays. These outputs update an evidence state used by the inspection orchestrator.
-
-The proposed AWS layer preserves consented evidence, session state, logs and a human-approved inspection certificate. AWS services and performance results described in the documentation are **implementation targets**, not claims of a completed deployment.
-
-## Responsible scope
-
-ReLoop supports visible cosmetic inspection only. It does not certify battery safety, water resistance, hidden functionality, authenticity, regulatory compliance or resale value. A proposed grade remains decision support; it is not an autonomous certification.
-
-## Repository contents
-
-| Path | Description |
+| Capability | Implementation |
 |---|---|
-| [`project_proposal.pdf`](project_proposal.pdf) | Full competition proposal and implementation plan |
-| [`technical_specification.md`](technical_specification.md) | MVP architecture, OpenCV pipeline, interfaces and acceptance criteria |
-| [`data_and_evaluation_protocol.md`](data_and_evaluation_protocol.md) | Dataset strategy, split discipline, metrics and failure analysis |
-| [`capture_and_inspection_protocol.md`](capture_and_inspection_protocol.md) | Reproducible acquisition and inspection workflow |
-| [`PROJECT_STATUS.md`](PROJECT_STATUS.md) | Current maturity, limitations and evidence still required |
-| [`TESTING_INSTRUCTIONS.md`](TESTING_INSTRUCTIONS.md) | Judge-facing review instructions |
-| [`ReLoop_Capture_Mat_A4.pdf`](ReLoop_Capture_Mat_A4.pdf) | Printable capture mat with fiducial markers |
+| Guided acquisition | Four required views: front, left oblique, right oblique, back |
+| Quality gates | Focus, exposure, black/white clipping, glare, coverage, pose |
+| Agentic action | OpenCV reason codes select the next corrective instruction |
+| Verification | A corrective capture must both pass its threshold and improve the rejected metric |
+| Explainability | Numeric metrics, thresholds, reason codes, overlays, provenance hashes |
+| Human control | Confirm, correct with rationale, or defer |
+| Evidence export | Privacy-safe ZIP with audit JSON, manifest, and four rendered OpenCV overlays |
+| Storage boundary | Source images remain in the browser session and are not persisted by the public MVP |
 
-## Current status
+## Agentic Vision loop
 
-This is a **design and technical specification repository**, not a completed production application. It intentionally contains no simulated source code, fabricated benchmark, fake deployment trace or unsupported performance claim. The next milestone is a working OpenCV 5 prototype that demonstrates glare rejection, verified corrective capture, multi-view evidence and human review.
+1. **Perceive:** OpenCV measures the submitted frame and renders an explainability overlay.
+2. **Decide:** A deterministic state machine maps failed gates to a reason code and one corrective instruction.
+3. **Act:** The interface asks for the specific missing or corrected view.
+4. **Verify:** The next frame must measurably improve the failed metric and pass the active gate.
+5. **Compose:** Accepted views form a provenance-linked evidence set.
+6. **Review:** A human confirms, corrects, or defers the prototype proposal.
 
-## Team MERAVIGLIA
+## Architecture
 
-**Filippo Giustini — Design Strategy.** Product framing, inspection experience, evaluation design and end-to-end narrative.
+```text
+React capture UI
+  └─ tRPC public API
+      └─ Node request guard
+          ├─ MIME / 7 MB / 12 MP / 4096 px validation
+          ├─ temporary request-scoped file
+          └─ Python OpenCV 5 worker (15 s timeout)
+              ├─ quality + pose metrics
+              ├─ corrective verification
+              ├─ evidence overlay
+              └─ next-action decision
+  └─ browser-session inspection aggregate
+      ├─ multi-view evidence
+      ├─ human review
+      └─ privacy-safe ZIP export
+```
 
-**Gaia Provvedi — Business Design.** Operator research, service model, pilot design and responsible-use validation.
+AWS interfaces are documented as a future adapter. **AWS is not represented as active in this managed demo.**
 
-## Usage and rights
+## Run locally
 
-The repository is public for competition review and collaboration. No reuse licence is granted unless a specific file states otherwise. Third-party datasets and software remain subject to their original licences.
+Prerequisites are Node.js 22, pnpm, Python 3.11+, and a Linux environment compatible with the pinned OpenCV wheel.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r python/requirements.txt
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Open the URL printed by the server. Select **Run reproducible demo** for the fastest judge path, or create a consented session and upload your own smartphone images.
+
+## Verify
+
+```bash
+pnpm check
+pnpm test
+pnpm build
+python3 scripts/profile_vision_worker.py
+python3 scripts/profile_managed_path.py
+```
+
+The current suite contains eleven passing tests covering runtime version, payload validation, decompression-bomb protection, corrective verification, four-view completion, evidence packaging, and human-review decisions.
+
+## Measured runtime envelope
+
+Twelve representative worker runs peaked at 76.8 MB RSS. Three end-to-end Node→Python runs used synthetic 4096×2929 inputs immediately below the 12 MP guard and peaked at 262.7 MB combined process-tree RSS, with a maximum wall time of 1.056 seconds. These are isolated-request runtime measurements, not concurrency or accuracy claims. See [`docs/validation_report.md`](docs/validation_report.md).
+
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [`docs/testing_instructions.md`](docs/testing_instructions.md) | Judge path and expected outcomes |
+| [`docs/technical_report.md`](docs/technical_report.md) | Architecture, OpenCV methods, state machine, safeguards |
+| [`docs/evaluation_protocol.md`](docs/evaluation_protocol.md) | Current verification and real-device validation plan |
+| [`docs/validation_report.md`](docs/validation_report.md) | Tests, browser run, runtime profiles |
+| [`docs/architecture_decision.md`](docs/architecture_decision.md) | Managed-demo decision and AWS boundary |
+| [`docs/devpost_submission_copy.md`](docs/devpost_submission_copy.md) | Updated submission text |
+| [`docs/final_video_script.md`](docs/final_video_script.md) | Three-minute prototype demo script |
+| [`docs/submission_checklist.md`](docs/submission_checklist.md) | Remaining publication steps |
+
+## Team
+
+**Team MERAVIGLIA** — Filippo Giustini, Design Strategy; Gaia Provvedi, Business Design.
+
+## License
+
+MIT. Synthetic fixtures are generated by repository code and are not customer data.

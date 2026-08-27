@@ -1,25 +1,38 @@
 # Testing Instructions
 
-## Review path for judges
+## Fast judge path
 
-This repository documents a prototype concept and technical design. A runnable build is not yet included. Please review the project in the following order:
+1. Open the public ReLoop Inspector endpoint.
+2. Select **Run reproducible demo**. No personal data or device images are required.
+3. Observe the first synthetic front capture being rejected with `FOCUS_TOO_LOW`.
+4. Observe the next front capture being verified against the rejected metric and accepted.
+5. Follow the automatic progression through left oblique, right oblique, and back.
+6. Review the four-view evidence set and the prototype cosmetic proposal.
+7. Select **Confirm proposal**, **Correct**, or **Defer**. Correction and deferral require rationale.
+8. Download **evidence ZIP** and verify `audit.json`, `evidence/manifest.json`, and four overlay images.
 
-1. Read the [project proposal](project_proposal.pdf) for the problem, solution and implementation plan.
-2. Review the [technical specification](technical_specification.md) for the OpenCV 5 pipeline and Agentic Vision state.
-3. Inspect the [data and evaluation protocol](data_and_evaluation_protocol.md) for baseline comparison, split discipline, metrics and failure handling.
-4. Review the [capture protocol](capture_and_inspection_protocol.md) and print the [A4 capture mat](ReLoop_Capture_Mat_A4.pdf) if evaluating acquisition reproducibility.
-5. Consult [PROJECT_STATUS.md](PROJECT_STATUS.md) for current limitations and evidence not yet claimed.
+Expected runtime evidence is OpenCV 5.0.0, four accepted views, five total attempts, and a decision trace containing one rejection plus the corrective verification.
 
-## Expected future golden path
+## Manual image path
 
-A competition-ready build should guide an operator through one intentionally reflective capture, reject the frame with a reason code, request a left or right tilt, verify that the requested pose was achieved, register multiple views, show interpretable evidence and require a human confirm, override or defer action.
+Create a non-identifying device label, accept the consent notice, and upload JPEG, PNG, or WebP images. Capture the requested view on a contrasting background under soft light. The system should reject weak evidence with one reason-specific instruction and should not advance until the correction is measured.
 
-## Current limitation
+Do not upload an IMEI, serial label, owner name, personal photograph, or confidential information.
 
-There is no working web endpoint in this repository yet. The linked video is a prototype concept walkthrough, not evidence of a deployed application. Testing should therefore focus on internal consistency, reproducibility and implementation readiness of the supplied design and protocol.
+## Local verification
 
-## Text for the Devpost field
-
-```text
-Prototype concept submission. Please review the public repository, starting with README.md and PROJECT_STATUS.md. The repository contains the project proposal, OpenCV 5 technical specification, data and evaluation protocol, reproducible capture procedure, architecture and printable capture mat. A runnable build and working web endpoint are not yet available; the linked video is explicitly labelled as a prototype concept walkthrough.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r python/requirements.txt
+pnpm install --frozen-lockfile
+pnpm check
+pnpm test
+pnpm dev
 ```
+
+For production validation, run `pnpm build`. Runtime benchmarks are reproducible with `python3 scripts/profile_vision_worker.py` and `python3 scripts/profile_managed_path.py`.
+
+## Known limitations
+
+Synthetic fixtures validate orchestration, not accuracy. Candidate surface marks are not validated defects. The system does not test functionality, battery, authenticity, water resistance, or safety. AWS is not active in the managed prototype.

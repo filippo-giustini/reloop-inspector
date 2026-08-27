@@ -1,0 +1,13 @@
+view	run	wall_seconds	peak_rss_kb	worker_ms	response_bytes
+front	1	0.4652	75960	85	66769
+front	2	0.4563	78684	77	66769
+front	3	0.4598	74356	77	66769
+left_oblique	1	0.4611	76976	79	73398
+left_oblique	2	0.4286	76420	74	73398
+left_oblique	3	0.4807	75820	98	73398
+right_oblique	1	0.4599	76128	81	70344
+right_oblique	2	0.4712	74400	87	70344
+right_oblique	3	0.4787	76832	84	70344
+back	1	0.4744	77904	86	68343
+back	2	0.4685	77460	81	68343
+back	3	0.4367	77696	73	68343
