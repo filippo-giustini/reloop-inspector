@@ -50,7 +50,7 @@ OpenCV 5, Python, NumPy, React, TypeScript, Node.js, tRPC, Tailwind CSS, Vitest,
 
 ## Working endpoint
 
-`[ADD PUBLIC MANAGED URL AFTER PUBLISHING]`
+`https://reloopinspec-tvqagq6k.manus.space/`
 
 ## Testing instructions
 

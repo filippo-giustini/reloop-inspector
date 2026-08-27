@@ -1,5 +1,7 @@
 # Testing Instructions
 
+Public demo: <https://reloopinspec-tvqagq6k.manus.space/>
+
 ## Fast judge path
 
 1. Open the public ReLoop Inspector endpoint.

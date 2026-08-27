@@ -2,6 +2,12 @@
 
 **ReLoop Inspector is a public Agentic Vision prototype for guided, multi-view smartphone cosmetic inspection.** OpenCV 5 measures whether each capture is usable, selects a reason-specific corrective action when evidence is weak, verifies the correction, and admits only validated views into a human-reviewed evidence set.
 
+## Public demo
+
+<https://reloopinspec-tvqagq6k.manus.space/>
+
+For the fastest judge path, select **Run reproducible demo**. The labelled synthetic reference sequence uses the same public OpenCV 5 endpoint as manual uploads and reaches human review and evidence export without requiring personal data.
+
 > **Prototype boundary:** ReLoop provides cosmetic decision support. It does not certify battery condition, authenticity, water resistance, electrical safety, or resale value. Candidate surface marks are heuristic observations, not validated defects.
 
 ## What is runnable
@@ -80,20 +86,20 @@ The current suite contains fifteen passing tests covering runtime version, paylo
 
 ## Measured runtime envelope
 
-Twelve representative worker runs peaked at 76.8 MB RSS. Three end-to-end Node→Python runs used synthetic 4096×2929 inputs immediately below the 12 MP guard and peaked at 262.7 MB combined process-tree RSS, with a maximum wall time of 1.056 seconds. These are isolated-request runtime measurements, not concurrency or accuracy claims. See [`validation_report.md`](validation_report.md).
+Twelve representative worker runs peaked at 76.8 MB RSS. Three end-to-end Node→Python runs used synthetic 4096×2929 inputs immediately below the 12 MP guard and peaked at 262.7 MB combined process-tree RSS, with a maximum wall time of 1.056 seconds. These are isolated-request runtime measurements, not concurrency or accuracy claims. See [`docs/validation_report.md`](docs/validation_report.md).
 
 ## Documentation
 
 | Document | Purpose |
 |---|---|
-| [`testing_instructions.md`](testing_instructions.md) | Judge path and expected outcomes |
-| [`technical_report.md`](technical_report.md) | Architecture, OpenCV methods, state machine, safeguards |
-| [`evaluation_protocol.md`](evaluation_protocol.md) | Current verification and real-device validation plan |
-| [`validation_report.md`](validation_report.md) | Tests, browser run, runtime profiles |
-| [`architecture_decision.md`](architecture_decision.md) | Managed-demo decision and AWS boundary |
-| [`devpost_submission_copy.md`](devpost_submission_copy.md) | Updated submission text |
-| [`final_video_script.md`](final_video_script.md) | Three-minute prototype demo script |
-| [`submission_checklist.md`](submission_checklist.md) | Remaining publication steps |
+| [`docs/testing_instructions.md`](docs/testing_instructions.md) | Judge path and expected outcomes |
+| [`docs/technical_report.md`](docs/technical_report.md) | Architecture, OpenCV methods, state machine, safeguards |
+| [`docs/evaluation_protocol.md`](docs/evaluation_protocol.md) | Current verification and real-device validation plan |
+| [`docs/validation_report.md`](docs/validation_report.md) | Tests, browser run, runtime profiles |
+| [`docs/architecture_decision.md`](docs/architecture_decision.md) | Managed-demo decision and AWS boundary |
+| [`docs/devpost_submission_copy.md`](docs/devpost_submission_copy.md) | Updated submission text |
+| [`docs/final_video_script.md`](docs/final_video_script.md) | Three-minute prototype demo script |
+| [`docs/submission_checklist.md`](docs/submission_checklist.md) | Remaining publication steps |
 
 ## Team
 
