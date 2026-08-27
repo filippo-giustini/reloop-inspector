@@ -48,7 +48,7 @@ The managed demo was exercised end to end with clearly labelled synthetic fixtur
 
 ## Automated checks
 
-`pnpm check` passes. Vitest executes eleven tests across authentication, OpenCV/state transitions, API payload validation, decompression-bomb protection, evidence packaging and human-review decisions. The ZIP unit test verifies the presence of `audit.json`, `evidence/manifest.json` and a rendered accepted-view overlay.
+`pnpm check` passes. Vitest executes fifteen tests across authentication, OpenCV/state transitions, API payload validation, decompression-bomb protection, evidence packaging, human-review decisions, file signatures, source-hash verification and durable tRPC rate limiting. The ZIP unit test verifies the presence of `audit.json`, `evidence/manifest.json` and a rendered accepted-view overlay.
 
 The production build completes successfully for the React client and bundled Node server. Runtime log review found no browser-console errors and no failed network requests during the end-to-end inspection run.
 
