@@ -50,7 +50,11 @@ OpenCV 5, Python, NumPy, React, TypeScript, Node.js, tRPC, Tailwind CSS, Vitest,
 
 ## Working endpoint
 
-`https://reloopinspec-tvqagq6k.manus.space/`
+`https://reloopinspec.com/`
+
+## Video demo
+
+`https://youtu.be/6PMXXPGAg_s`
 
 ## Testing instructions
 

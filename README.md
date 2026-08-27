@@ -4,7 +4,11 @@
 
 ## Public demo
 
-<https://reloopinspec-tvqagq6k.manus.space/>
+<https://reloopinspec.com/>
+
+## Video demo
+
+<https://youtu.be/6PMXXPGAg_s>
 
 For the fastest judge path, select **Run reproducible demo**. The labelled synthetic reference sequence uses the same public OpenCV 5 endpoint as manual uploads and reaches human review and evidence export without requiring personal data.
 

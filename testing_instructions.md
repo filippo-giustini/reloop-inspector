@@ -1,6 +1,10 @@
 # Testing Instructions
 
-Public demo: <https://reloopinspec-tvqagq6k.manus.space/>
+Public demo: <https://reloopinspec.com/>
+
+Video demo: <https://youtu.be/6PMXXPGAg_s>
+
+Repository: <https://github.com/filippo-giustini/reloop-inspector>
 
 ## Fast judge path
 

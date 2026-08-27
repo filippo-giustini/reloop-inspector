@@ -85,3 +85,33 @@ The video contains a 29.5-second deterministic recording of the live browser pro
 The complete-timeline contact sheet and a dedicated live-section contact sheet were reviewed against the exported final MP4. Stable editorial frames are used outside the live recording, with no generated interface animation or interpolated zoom, eliminating the vibration reported in the earlier concept video.
 
 Additional sub-second extraction at 00:47.25, 00:47.50 and 00:47.75 confirms the last measured capture state immediately before the transition; at 00:48.00 the review screen is visible with all four evidence thumbnails admitted. This verifies that the front, two oblique and back evidence set was completed in the exported video before human review.
+
+## Published managed demo verification
+
+The managed deployment is available at the canonical endpoint <https://reloopinspec.com/>. The public page loaded without authentication, reported OpenCV `5.0.0 live`, displayed the final privacy disclosure and exposed the reproducible judge path. Starting that path reached guided capture with `Synthetic persistence ready` and logged the declared synthetic reference run; review, audit and export verification follow in the same public session.
+
+The public reproducible path completed all five OpenCV analyses and reached human review with four accepted views, five total attempts, `Managed synthetic evidence`, a `B-candidate` prototype proposal and visible Confirm, Correct and Defer controls. The browser trace includes the final back-view admission before review.
+
+The indexed automation click did not transition the review, matching the previously documented browser-automation limitation. The same visible `Confirm proposal` control was invoked directly through the page DOM and returned `{clicked: true, disabled: false}`. The public audit screen and download controls are verified in the next state check.
+
+The public domain then displayed the audit-ready `B-candidate` outcome, confirmed human decision, four-view evidence strip and both `Download evidence ZIP` and `Metadata JSON` controls. The evidence ZIP control was exercised successfully; file integrity and contents are verified separately from the browser download.
+
+The evidence archive downloaded from production as `reloop-evidence-99e316c0.zip`, measured 96,315 bytes and passed `unzip -t`. Its contents were `README.txt`, `audit.json`, `evidence/manifest.json` and four view-specific JPEG overlays; zero separately named source/original photographs were present.
+
+Final public-link checks returned HTTP 200 for both the managed demo and GitHub repository. Immutable commit `006a22c38e59632fce325619f53b04f8e6d141be` exposes the verified demo URL in README, testing instructions and Devpost copy. Its public source ZIP is 314,731 bytes and passed `unzip -t`. Local checksum verification passed for the 342,752-byte Devpost archive and the final three-minute MP4.
+
+## Custom-domain verification
+
+`https://reloopinspec.com/` resolves through Cloudflare and returned HTTP 200 over HTTPS with HSTS enabled. `https://www.reloopinspec.com/` returned HTTP 301 to the apex domain and then HTTP 200. The production interface loaded from the apex domain without authentication, reported OpenCV `5.0.0 live`, displayed the final privacy disclosure and exposed the reproducible-demo control. The declared synthetic run started successfully on the custom domain and entered the real guided-capture path with managed synthetic persistence ready.
+
+The custom-domain run completed five OpenCV analyses and reached human review with four accepted views, five total attempts, managed synthetic evidence and the `B-candidate` prototype proposal. The visible `Confirm proposal` action was invoked successfully; audit-screen and export verification follow in the same custom-domain session.
+
+The same custom-domain session reached the audit-ready `B-candidate` outcome after human confirmation. The four evidence views, `Download evidence ZIP` and `Metadata JSON` controls were visible, and the evidence ZIP download was triggered from `https://reloopinspec.com/` for local integrity verification.
+
+The downloaded custom-domain archive was `reloop-evidence-face8ea0.zip`, measured 96,304 bytes and passed `unzip -t`. It contains `README.txt`, `audit.json`, `evidence/manifest.json` and four view-specific OpenCV JPEG overlays. No file name matched source, original or raw image patterns. The custom-domain judge path is verified end to end.
+
+README, testing instructions, Devpost copy and YouTube metadata were updated to use `https://reloopinspec.com/` as the canonical public endpoint. A post-edit audit returned zero references to the temporary Manus domain across the project and final video text assets.
+
+The final video was published on YouTube as **Unlisted** at <https://youtu.be/6PMXXPGAg_s>. YouTube Studio confirmed the English (United Kingdom) timed subtitle upload, Not made for kids audience setting, AI-use disclosure and completed checks with no issue found. An unauthenticated public extraction returned the final title and a playable 3:00 asset.
+
+The final Devpost archive was regenerated after adding the canonical domain and YouTube link. Both the submission archive and its embedded source archive passed `unzip -t` and remain far below the 35 MB submission limit. Exact immutable SHA-256 values are stored in the external delivery manifest rather than inside the archives, avoiding self-referential hash changes.
