@@ -90,20 +90,21 @@ The current suite contains fifteen passing tests covering runtime version, paylo
 
 ## Measured runtime envelope
 
-Twelve representative worker runs peaked at 76.8 MB RSS. Three end-to-end Node→Python runs used synthetic 4096×2929 inputs immediately below the 12 MP guard and peaked at 262.7 MB combined process-tree RSS, with a maximum wall time of 1.056 seconds. These are isolated-request runtime measurements, not concurrency or accuracy claims. See [`docs/validation_report.md`](docs/validation_report.md).
+Twelve representative worker runs peaked at 76.8 MB RSS. Three end-to-end Node→Python runs used synthetic 4096×2929 inputs immediately below the 12 MP guard and peaked at 262.7 MB combined process-tree RSS, with a maximum wall time of 1.056 seconds. These are isolated-request runtime measurements, not concurrency or accuracy claims. See [`validation_report.md`](validation_report.md).
 
 ## Documentation
 
 | Document | Purpose |
 |---|---|
-| [`docs/testing_instructions.md`](docs/testing_instructions.md) | Judge path and expected outcomes |
-| [`docs/technical_report.md`](docs/technical_report.md) | Architecture, OpenCV methods, state machine, safeguards |
-| [`docs/evaluation_protocol.md`](docs/evaluation_protocol.md) | Current verification and real-device validation plan |
-| [`docs/validation_report.md`](docs/validation_report.md) | Tests, browser run, runtime profiles |
-| [`docs/architecture_decision.md`](docs/architecture_decision.md) | Managed-demo decision and AWS boundary |
-| [`docs/devpost_submission_copy.md`](docs/devpost_submission_copy.md) | Updated submission text |
-| [`docs/final_video_script.md`](docs/final_video_script.md) | Three-minute prototype demo script |
-| [`docs/submission_checklist.md`](docs/submission_checklist.md) | Remaining publication steps |
+| [`testing_instructions.md`](testing_instructions.md) | Judge path and expected outcomes |
+| [`technical_report.md`](technical_report.md) | Architecture, OpenCV methods, state machine, safeguards |
+| [`evaluation_protocol.md`](evaluation_protocol.md) | Current verification and real-device validation plan |
+| [`validation_report.md`](validation_report.md) | Tests, browser run, runtime profiles |
+| [`architecture_decision.md`](architecture_decision.md) | Managed-demo decision and AWS boundary |
+| [`devpost_submission_copy.md`](devpost_submission_copy.md) | Updated submission text |
+| [`final_devpost_fields.md`](final_devpost_fields.md) | Copy-ready final URLs, tags, testing text and team contributions |
+| [`final_video_script.md`](final_video_script.md) | Three-minute prototype demo script |
+| [`submission_checklist.md`](submission_checklist.md) | Remaining publication steps |
 
 ## Team
 
