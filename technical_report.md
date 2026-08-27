@@ -53,15 +53,15 @@ Every attempt records the requested view, timestamp, SHA-256 source hash, OpenCV
 
 The reproducible browser path generated five synthetic captures: a rejected blurred front view, its accepted correction, and three accepted remaining views. The final audit contained four admitted views, five decisions, and sixteen timestamped audit events.
 
-Eleven unit and integration tests pass. Twelve representative standalone worker runs averaged 81.8 ms of in-worker analysis and peaked at 76.8 MB RSS. Three near-limit 11,997,184-pixel end-to-end requests peaked at 262.7 MB combined Node-plus-Python RSS and 1.056 seconds wall time. Full measurements and scope limitations are in [`validation_report.md`](validation_report.md).
+Fifteen unit and integration tests pass, including tRPC-level rejection of source-hash mismatch and durable rate-limit enforcement. Twelve representative standalone worker runs averaged 81.8 ms of in-worker analysis and peaked at 76.8 MB RSS. Three near-limit 11,997,184-pixel end-to-end requests peaked at 262.7 MB combined Node-plus-Python RSS and 1.056 seconds wall time. Full measurements and scope limitations are in [`validation_report.md`](validation_report.md).
 
 ## Security and privacy safeguards
 
-The public MVP accepts JPEG, PNG, and WebP only. The server rejects data above 7 MB, image dimensions above 12 MP or 4096 pixels per side, worker output above eight million characters, and workers exceeding fifteen seconds. Device labels explicitly exclude IMEI, serial number, owner name, and personal information. Source images remain in browser memory and request-scoped temporary storage only.
+The public MVP accepts JPEG, PNG, and WebP only. The server rejects data above 7 MB, image dimensions above 12 MP or 4096 pixels per side, worker output above eight million characters, and workers exceeding fifteen seconds. Device labels explicitly exclude IMEI, serial number, owner name, and personal information. Real uploaded images remain in browser memory and request-scoped temporary storage only. The declared synthetic reference path alone persists fixture sources and overlays, protected by a hashed session token, file-signature checks, server-side source-hash verification and a database-backed rate limit.
 
 ## Limitations and next work
 
-Synthetic fixtures prove orchestration and reproducibility, not real-world accuracy. Thresholds require calibration on consented, representative devices and independent human annotations. Device detection may fail on low-contrast backgrounds, cases, severe occlusion, or unusual form factors. The managed deployment is not a concurrency benchmark. AWS persistence and audit services remain a future adapter and are not active.
+Synthetic fixtures prove orchestration and reproducibility, not real-world accuracy. Thresholds require calibration on consented, representative devices and independent human annotations. Device detection may fail on low-contrast backgrounds, cases, severe occlusion, or unusual form factors. The managed deployment is not a concurrency benchmark. Synthetic evidence rows carry a 24-hour expiry marker, but automated object deletion is not claimed in this MVP. AWS persistence and audit services remain a future adapter and are not active.
 
 ## References
 

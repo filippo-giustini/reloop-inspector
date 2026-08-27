@@ -2,6 +2,34 @@
 
 ## Interactive browser run
 
+### Persistence regression found during final integration
+
+The first end-to-end run after enabling managed synthetic persistence stopped after the measured `FOCUS_TOO_LOW` decision with `Expected image/png data URL`. OpenCV analysis itself succeeded, but the persistence boundary rejected the actual overlay MIME type. This is tracked as a blocking integration defect and must be corrected and re-run before the persistence items are closed.
+
+The persistence boundary was corrected to accept the JPEG overlay emitted by `vision_worker.py`. The next browser run passed the previous failure point: the first `FOCUS_TOO_LOW` analysis completed and the runtime panel entered `Saving synthetic evidence…` without the MIME error. Full five-capture completion and database verification remain required before closing the defect.
+
+The corrected browser run then completed all five OpenCV analyses. The review screen showed four accepted views, five total attempts and `Managed synthetic evidence` in the runtime panel, proving that each capture crossed the storage boundary without interrupting the Agentic Vision state machine. The human confirmation action was exercised; final audit-screen and database-row verification remain pending.
+
+The indexed browser click did not visually transition the review, matching the earlier automation limitation, so the same `Confirm proposal` control was invoked directly through the page DOM and returned `clicked`. The next verification must confirm the audit screen and the final review snapshot in the database before this result is considered complete.
+
+The subsequent browser state displayed the audit-ready `B-candidate` outcome, the four evidence thumbnails and both export controls. A database verification against the most recently updated session returned `status=completed`, four accepted views, five decision records, a non-null human review, five persisted captures, four accepted captures, five distinct source object keys, five distinct overlay object keys, sixteen audit events and one `review_completed` event. The stored session is explicitly labelled `synthetic-reference-device`; real user uploads remain request-scoped and browser-only.
+
+The persistence regression is closed. The managed storage path is intentionally limited to declared synthetic reference fixtures. Each session stores a hashed access token and a 24-hour expiry timestamp; automated object deletion is not claimed in this MVP.
+
+## Final persistence and container validation
+
+The managed persistence path was hardened with server-side SHA-256 recomputation, JPEG/PNG signature validation, a seven-megabyte evidence limit and a database-backed public-endpoint rate limit of eighteen writes per hashed client key per hour. The counter is atomic and shared across cold starts and managed instances. The tRPC test exercises eighteen source-hash rejections followed by a nineteenth rate-limit rejection through the actual endpoint contract. TypeScript checks and all fifteen Vitest cases passed.
+
+The single-container package was validated with `dockerfilelint` and reported no issues. The packaged Python worker health check returned OpenCV `5.0.0` and NumPy `2.2.6`. The production Node bundle was started with `NODE_ENV=production` on an isolated port and served the compiled 368,355-byte application shell successfully over HTTP. A full container-image build was not available in the sandbox, so the managed platform build remains the publication-time verification step.
+
+The final disclosure copy was visually reviewed at 1280×720 and 390×844. Both layouts clearly distinguish request-scoped real uploads from managed persistence of the synthetic reference run. The desktop evidence-lab hierarchy remains intact, and the mobile layout keeps the disclosure, consent, primary capture action and reproducible-demo action readable without horizontal overflow.
+
+The final video was rerendered after the privacy-model update. Its revised cards and narration distinguish browser-only real uploads from persistence of the declared synthetic reference evidence. Visual review passed, and the file measures 180.000 seconds, 1920×1080 at 30 fps, H.264/AAC stereo, 9,124,570 bytes and -15.9 LUFS integrated loudness with no decode errors.
+
+A final repository-wide wording audit found no remaining occurrences of the superseded claims that all source images stay in-browser, that no source files are persisted, or that the suite contains eleven tests. README, technical report, architecture decision, evaluation protocol, testing guide, Devpost copy, video script and visual cards now state the same boundary: real uploads are browser-only and request-scoped; only the declared synthetic reference path is persisted.
+
+The final audit was rerun across forty-one text assets, explicitly including the root `README.md`, every project Markdown/text/caption file, and the public video materials under `reloop-functional-video` such as `YouTube_upload.md`, `narration_plan.md`, subtitles and frame copy. Exact obsolete formulations returned zero matches.
+
 The managed demo was exercised end to end with clearly labelled synthetic fixtures generated in the browser and submitted to the same public OpenCV endpoint used for uploaded images.
 
 | Check | Observed result |

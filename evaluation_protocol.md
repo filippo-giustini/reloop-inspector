@@ -19,7 +19,7 @@ The evaluation separates **workflow correctness** from **inspection accuracy**. 
 
 ## Reproducible reference run
 
-Select **Run reproducible demo**. The browser generates clearly labelled synthetic fixtures and submits them through the same public endpoint as user uploads. The expected sequence is one focus rejection, one verified correction, three additional accepted views, human review, and ZIP export.
+Select **Run reproducible demo**. The browser generates clearly labelled synthetic fixtures and submits them through the same public endpoint as user uploads. Only this declared synthetic path persists sources, overlays, session state, decisions and audit events in managed storage and database records; manual uploads remain browser-only. The expected sequence is one focus rejection, one verified correction, three additional accepted views, human review, and ZIP export.
 
 Synthetic fixtures may be used to test deterministic orchestration. They must not be used to estimate precision, recall, defect prevalence, customer impact, or commercial grading accuracy.
 

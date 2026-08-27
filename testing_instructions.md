@@ -3,7 +3,7 @@
 ## Fast judge path
 
 1. Open the public ReLoop Inspector endpoint.
-2. Select **Run reproducible demo**. No personal data or device images are required.
+2. Select **Run reproducible demo**. No personal data or device images are required. The interface explicitly declares that this synthetic reference evidence is persisted in managed storage; manual uploads remain browser-only.
 3. Observe the first synthetic front capture being rejected with `FOCUS_TOO_LOW`.
 4. Observe the next front capture being verified against the rejected metric and accepted.
 5. Follow the automatic progression through left oblique, right oblique, and back.

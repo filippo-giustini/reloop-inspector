@@ -1,64 +1,99 @@
 # ReLoop Inspector
 
-**ReLoop Inspector is a functioning Agentic Vision prototype for guided, multi-view smartphone cosmetic inspection.** OpenCV 5 measures whether each capture is usable, selects a reason-specific corrective action, verifies the correction, and admits only validated views into a human-reviewed evidence set.
+**ReLoop Inspector is a public Agentic Vision prototype for guided, multi-view smartphone cosmetic inspection.** OpenCV 5 measures whether each capture is usable, selects a reason-specific corrective action when evidence is weak, verifies the correction, and admits only validated views into a human-reviewed evidence set.
 
 > **Prototype boundary:** ReLoop provides cosmetic decision support. It does not certify battery condition, authenticity, water resistance, electrical safety, or resale value. Candidate surface marks are heuristic observations, not validated defects.
 
-## Runnable source
+## What is runnable
 
-Download [`ReLoop_Inspector_Source.zip`](ReLoop_Inspector_Source.zip) to obtain the complete application tree, including React, Node/tRPC, Python/OpenCV 5, Dockerfile, tests, profiling scripts and documentation.
+The repository contains a functioning browser flow, a Node/tRPC API, and a Python worker running `opencv-contrib-python-headless==5.0.0.93`. The public interface supports manual image upload or camera capture and a deterministic reference run using clearly labelled synthetic fixtures.
+
+| Capability | Implementation |
+|---|---|
+| Guided acquisition | Four required views: front, left oblique, right oblique, back |
+| Quality gates | Focus, exposure, black/white clipping, glare, coverage, pose |
+| Agentic action | OpenCV reason codes select the next corrective instruction |
+| Verification | A corrective capture must both pass its threshold and improve the rejected metric |
+| Explainability | Numeric metrics, thresholds, reason codes, overlays, provenance hashes |
+| Human control | Confirm, correct with rationale, or defer |
+| Evidence export | Privacy-safe ZIP with audit JSON, manifest, and four rendered OpenCV overlays |
+| Storage boundary | Real uploads remain browser-only; declared synthetic fixtures and overlays are persisted in managed storage for reproducibility |
+
+## Agentic Vision loop
+
+1. **Perceive:** OpenCV measures the submitted frame and renders an explainability overlay.
+2. **Decide:** A deterministic state machine maps failed gates to a reason code and one corrective instruction.
+3. **Act:** The interface asks for the specific missing or corrected view.
+4. **Verify:** The next frame must measurably improve the failed metric and pass the active gate.
+5. **Compose:** Accepted views form a provenance-linked evidence set.
+6. **Review:** A human confirms, corrects, or defers the prototype proposal.
+
+## Architecture
+
+```text
+React capture UI
+  └─ tRPC public API
+      └─ Node request guard
+          ├─ MIME / 7 MB / 12 MP / 4096 px validation
+          ├─ temporary request-scoped file
+          └─ Python OpenCV 5 worker (15 s timeout)
+              ├─ quality + pose metrics
+              ├─ corrective verification
+              ├─ evidence overlay
+              └─ next-action decision
+  ├─ browser-session inspection aggregate
+  │   ├─ multi-view evidence
+  │   ├─ human review
+  │   └─ privacy-safe ZIP export
+  └─ synthetic-reference persistence only
+      ├─ managed object storage for fixture images and overlays
+      └─ database state, decisions, review, audit and durable rate limit
+```
+
+AWS interfaces are documented as a future adapter. **AWS is not represented as active in this managed demo.**
+
+## Run locally
+
+Prerequisites are Node.js 22, pnpm, Python 3.11+, and a Linux environment compatible with the pinned OpenCV wheel.
 
 ```bash
-unzip ReLoop_Inspector_Source.zip -d reloop-inspector
-cd reloop-inspector
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r python/requirements.txt
 pnpm install --frozen-lockfile
-pnpm check
-pnpm test
 pnpm dev
 ```
 
-Select **Run reproducible demo** for the fastest judge path. The synthetic fixtures are clearly labelled and pass through the same public OpenCV endpoint as uploaded frames.
+Open the URL printed by the server. Select **Run reproducible demo** for the fastest judge path, or create a consented session and upload your own smartphone images.
 
-## What the prototype proves
+## Verify
 
-| Capability | Evidence |
-|---|---|
-| OpenCV 5 runtime | Pinned `opencv-contrib-python-headless==5.0.0.93` and health test |
-| Real agentic transition | Blurred front frame triggers `FOCUS_TOO_LOW` |
-| Verified action | Corrected frame must improve focus and pass the threshold |
-| Multi-view composition | Front, left oblique, right oblique and back must each pass |
-| Human control | Confirm, correct with rationale, or defer |
-| Explainability | Numeric metrics, thresholds, reason codes, overlays and SHA-256 provenance |
-| Privacy-safe export | Audit JSON, manifest and four overlays; no separate source photos |
+```bash
+pnpm check
+pnpm test
+pnpm build
+python3 scripts/profile_vision_worker.py
+python3 scripts/profile_managed_path.py
+```
 
-## Agentic Vision loop
-
-1. **Perceive:** OpenCV measures focus, exposure, clipping, glare, coverage and pose.
-2. **Decide:** A deterministic state machine selects one corrective action or the next missing view.
-3. **Act:** The browser requests that precise capture.
-4. **Verify:** The new frame must measurably improve the failed condition and pass its gate.
-5. **Compose:** Accepted views form a provenance-linked evidence set.
-6. **Review:** A human confirms, corrects or defers the prototype proposal.
-
-AWS interfaces are documented as future work. **AWS is not represented as active in this managed demo.**
-
-## Judge-facing documents
-
-| Document | Purpose |
-|---|---|
-| [`TESTING_INSTRUCTIONS.md`](TESTING_INSTRUCTIONS.md) | Reproducible judge path and expected outcomes |
-| [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md) | OpenCV pipeline, orchestration, safeguards and limitations |
-| [`EVALUATION_PROTOCOL.md`](EVALUATION_PROTOCOL.md) | Current verification and real-device validation plan |
-| [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md) | Tests, browser run, evidence ZIP and runtime measurements |
-| [`RUNTIME_PROFILE.tsv`](RUNTIME_PROFILE.tsv) | Twelve representative worker measurements |
-| [`MANAGED_PATH_PROFILE.tsv`](MANAGED_PATH_PROFILE.tsv) | Three near-limit Node→Python measurements |
+The current suite contains fifteen passing tests covering runtime version, payload validation, decompression-bomb protection, corrective verification, four-view completion, evidence packaging, human-review decisions, file signatures, source-hash mismatch and durable rate-limit rejection through tRPC.
 
 ## Measured runtime envelope
 
-The eleven-test suite passes. Twelve representative worker runs peaked at 76.8 MB RSS. Three end-to-end requests at 4096×2929 pixels peaked at 262.7 MB combined Node-plus-Python RSS and 1.056 seconds wall time. These are isolated-request runtime measurements, not concurrency or accuracy claims.
+Twelve representative worker runs peaked at 76.8 MB RSS. Three end-to-end Node→Python runs used synthetic 4096×2929 inputs immediately below the 12 MP guard and peaked at 262.7 MB combined process-tree RSS, with a maximum wall time of 1.056 seconds. These are isolated-request runtime measurements, not concurrency or accuracy claims. See [`validation_report.md`](validation_report.md).
+
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [`testing_instructions.md`](testing_instructions.md) | Judge path and expected outcomes |
+| [`technical_report.md`](technical_report.md) | Architecture, OpenCV methods, state machine, safeguards |
+| [`evaluation_protocol.md`](evaluation_protocol.md) | Current verification and real-device validation plan |
+| [`validation_report.md`](validation_report.md) | Tests, browser run, runtime profiles |
+| [`architecture_decision.md`](architecture_decision.md) | Managed-demo decision and AWS boundary |
+| [`devpost_submission_copy.md`](devpost_submission_copy.md) | Updated submission text |
+| [`final_video_script.md`](final_video_script.md) | Three-minute prototype demo script |
+| [`submission_checklist.md`](submission_checklist.md) | Remaining publication steps |
 
 ## Team
 

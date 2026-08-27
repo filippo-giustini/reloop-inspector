@@ -5,8 +5,8 @@ The video must use recordings of the running interface. Do not reuse the earlier
 | Time | Screen action | Voice-over |
 |---:|---|---|
 | 0:00–0:18 | Hero and OpenCV live badge | “A single smartphone image can hide the evidence an inspector needs. ReLoop Inspector does not guess when vision is uncertain. It asks for a better view.” |
-| 0:18–0:35 | Setup screen and responsible boundary | “This is a functioning, privacy-first prototype. It supports cosmetic evidence only, excludes safety and authenticity claims, and keeps source images inside the active browser session.” |
-| 0:35–0:55 | Select Run reproducible demo | “For a reproducible judge path, the browser creates clearly labelled synthetic fixtures and sends them through the same public OpenCV 5 endpoint used for uploaded captures.” |
+| 0:18–0:35 | Setup screen and responsible boundary | “This is a functioning, privacy-first prototype. It supports cosmetic evidence only and excludes safety and authenticity claims. Real uploaded images remain inside the active browser session.” |
+| 0:35–0:55 | Select Run reproducible demo | “For a reproducible judge path, the browser creates clearly labelled synthetic fixtures, sends them through the public OpenCV 5 endpoint, and stores only that declared reference evidence.” |
 | 0:55–1:20 | Show blurred front rejection and metrics | “The first frame fails the focus gate. OpenCV returns the measured value, threshold, `FOCUS_TOO_LOW` reason code, explainability overlay, and one corrective instruction. The workflow cannot advance.” |
 | 1:20–1:42 | Show corrected front acceptance | “The next frame is compared with the rejected attempt. It must improve focus by at least fifteen percent and pass the gate. Only after verification does the front view enter the evidence set.” |
 | 1:42–2:02 | Progress through oblique and back views | “The same loop verifies left oblique, right oblique, and back. Pose is computed from device-edge asymmetry, so a filename or scripted sequence cannot force acceptance.” |
@@ -19,4 +19,4 @@ Record at 1920×1080, hide personal browser data, keep the cursor slow, and uplo
 
 ## Produced video
 
-The generated final cut is `ReLoop_Inspector_Functioning_Prototype_3min.mp4`. It is exactly 180 seconds, 1920×1080 at 30 fps, with H.264 video, AAC stereo audio at 48 kHz, integrated loudness of -16.0 LUFS and a clearly audible original background score. All interface imagery comes from the functioning managed prototype; no generated interface animation is used.
+The generated final cut is `ReLoop_Inspector_Functioning_Prototype_3min_FINAL.mp4`. It is exactly 180 seconds, 1920×1080 at 30 fps, with H.264 video, AAC stereo audio at 48 kHz, integrated loudness of -16.0 LUFS and a clearly audible original background score. A verified 29.5-second browser recording shows the functioning path; the remaining sections use stable editorial frames captured from the prototype.

@@ -22,7 +22,7 @@ After front, left-oblique, right-oblique, and back views are accepted, ReLoop co
 
 The interface uses React, TypeScript, Tailwind CSS, tRPC, and Node.js. Each image is guarded by MIME, byte-size, decoded-dimension, timeout, and output limits before a short-lived Python process runs OpenCV 5.0.0.93. The worker uses contours and quadrilateral geometry for device and pose checks, Laplacian variance for focus, grayscale and HSV statistics for exposure and glare, and Hough line candidates for reviewable surface evidence.
 
-The public MVP is privacy-first: source images are request-scoped and remain in the browser session. AWS is described as a future adapter and is not presented as active.
+The public MVP is privacy-first: real uploaded images are request-scoped and remain in the browser session. Only the clearly labelled synthetic reference run persists fixture images and OpenCV overlays in managed object storage, with database-backed state, decision, audit and review records. AWS is described as a future adapter and is not presented as active.
 
 ### Challenges
 
@@ -34,7 +34,7 @@ The strongest output is not a grade; it is an evidence trail that explains why a
 
 ### Accomplishments
 
-The repository contains eleven passing tests, an end-to-end reproducible browser run, an evidence ZIP verified after download, and measured single-request runtime headroom below the managed 512 MB limit. Near-limit 11,997,184-pixel requests peaked at 262.7 MB combined Node-plus-Python RSS and 1.056 seconds wall time.
+The repository contains fifteen passing tests, an end-to-end reproducible browser run, managed persistence of the declared synthetic evidence, an evidence ZIP verified after download, and measured single-request runtime headroom below the managed 512 MB limit. Near-limit 11,997,184-pixel requests peaked at 262.7 MB combined Node-plus-Python RSS and 1.056 seconds wall time.
 
 ### Next steps
 
